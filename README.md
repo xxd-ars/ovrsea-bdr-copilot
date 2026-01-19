@@ -2,7 +2,7 @@
 
 An intelligent Business Development Representative (BDR) assistant designed to automate lead qualification, enrichment, and CRM management. Built for the OVRSEA Technical Test.
 
-![App Screenshot](https://via.placeholder.com/800x400?text=OVRSEA+BDR+Dashboard+UI)
+![App Screenshot](./assets/dashboard.png)
 
 ## 🎯 Core Features
 

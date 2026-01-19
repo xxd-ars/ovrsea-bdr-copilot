@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { Layout, Table, Button, Tag, Descriptions, Space, Typography, Modal, Form, Input, Select, message, Popconfirm, Divider } from 'antd';
 import { PlusOutlined, ReloadOutlined, RobotOutlined, DeleteOutlined, EditOutlined, CloseOutlined, SendOutlined, SearchOutlined } from '@ant-design/icons';
 import type { ColumnsType } from 'antd/es/table';
@@ -456,7 +456,7 @@ function App() {
             flexShrink: 0
           }}>
             <div style={{ padding: '12px 16px', borderBottom: '1px solid #eee', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <Text strong size="small" style={{ color: '#555' }}>SESSIONS</Text>
+              <Text strong style={{ color: '#555', fontSize: '12px' }}>SESSIONS</Text>
               <Button size="small" icon={<PlusOutlined />} onClick={handleNewSession}>New</Button>
             </div>
             <div style={{ flex: 1, overflowY: 'auto', padding: '8px' }}>

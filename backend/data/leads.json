@@ -238,14 +238,16 @@
   },
   {
     "id": 11,
-    "company_name": "test",
-    "website_url": "test",
-    "location": "test",
-    "industry": "test",
-    "employee_count": "200-500",
+    "company_name": "SpaceX",
+    "website_url": "https://spacex.com",
+    "location": "Hawthorne, California, USA",
+    "industry": "Aviation and Aerospace",
+    "employee_count": "10000+",
     "product": null,
-    "product_type": null,
-    "transport_modes": [],
+    "product_type": "Physical Goods",
+    "transport_modes": [
+      "Air"
+    ],
     "import_locations": [],
     "export_locations": [],
     "status": "New"

@@ -117,13 +117,13 @@ class AgentRuntime:
             result = func(**kwargs)
             
             result_str = json.dumps(result, default=str)
-            print(f"[RUNTIME] 📤 Result: {result_str[:200]}..." if len(result_str) > 200 else f"[RUNTIME] 📤 Result: {result_str}")
+            print(f"[RUNTIME] 📤 Result: {result_str}")
             return result_str
         except Exception as e:
             traceback.print_exc()
             return json.dumps({"error": str(e)})
 
-    def run(self, user_message: str, max_steps: int = 5) -> str:
+    def run(self, user_message: str, max_steps: int = 10) -> str:
         """
         Main ReAct Loop
         """
@@ -132,11 +132,12 @@ class AgentRuntime:
             self.memory.append({"role": "system", "content": self.system_prompt})
         
         self.add_message("user", user_message)
+        print(f"\n[RUNTIME] 👤 User: {user_message}")
 
         step = 0
         while step < max_steps:
             step += 1
-            
+
             # 2. Call OpenAI
             print(f"\n[RUNTIME] ⏳ Step {step}: Thinking...")
             try:

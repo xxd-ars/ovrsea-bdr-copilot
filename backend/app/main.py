@@ -56,14 +56,13 @@ def get_lead(lead_id: int):
             return lead
     raise HTTPException(status_code=404, detail="Lead not found")
 
+from app.db import load_leads, save_leads, create_lead as db_create_lead
+
+# ... (keep existing imports)
+
 @app.post("/leads", response_model=Lead)
 def create_lead(lead: LeadCreate):
-    leads = load_leads()
-    new_id = max([l.id for l in leads], default=0) + 1
-    new_lead = Lead(id=new_id, **lead.model_dump())
-    leads.append(new_lead)
-    save_leads(leads)
-    return new_lead
+    return db_create_lead(lead)
 
 @app.patch("/leads/{lead_id}", response_model=Lead)
 def update_lead(lead_id: int, lead_update: LeadUpdate):
