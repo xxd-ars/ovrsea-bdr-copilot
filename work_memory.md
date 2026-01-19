@@ -3,57 +3,58 @@
 ## 📅 Context
 - **Date:** January 19, 2026
 - **Goal:** Prepare for OVRSEA GenAI Technical Test (BDR Automation).
-- **Time Limit:** 3-4 hours preparation.
 - **Core Requirement:** Light-weight web app + Agentic capabilities.
 
-## 🛠️ Technical Stack (Finalized)
-*   **Backend:** **Python + FastAPI**.
-*   **Storage:** **JSON File (`leads.json`) + Pydantic**.
-*   **Frontend:** **TypeScript + React (Vite) + Ant Design**.
-*   **Agent/LLM:** **OpenAI SDK** + **Pydantic** (Structured Outputs).
+## 🛠️ Technical Stack
+*   **Backend:** **Python + FastAPI** (API & Agent Logic).
+*   **Storage:** **JSON File (`leads.json`)** managed via **Pydantic**.
+*   **Frontend:** **React (Vite) + Ant Design** (Professional B2B UI).
+*   **Agent:** **OpenAI SDK** (Backbone prepared for live coding).
+
+## 🚀 Development Journey (Summary for Presentation)
+
+### Phase 1: Architecture & Setup
+*   **Decision:** Chose **FastAPI + React** over Streamlit to demonstrate "Real-Life Impact" and engineering maturity while keeping it lightweight (no heavy DB).
+*   **Structure:** Clean separation of concerns (`backend/` vs `frontend/`).
+*   **Security:** Implemented `.env` for API keys and proper `.gitignore`.
+
+### Phase 2: Data Engineering (The "BDR" Context)
+*   **Strategy:** Created a dataset of **10 Real Companies** (e.g., Sézane, Devialet) with specific logistics characteristics (e.g., "Import from China", "Physical Goods" vs "SaaS").
+*   **Schema Design:** Added specific fields like `product_type` and `transport_modes` to enable future Agent reasoning (Shippability checks).
+
+### Phase 3: Web App Implementation (The "Productivity Hack")
+*   **UI/UX Design:** 
+    *   **Single-View Dashboard:** Combined List View + Detail Panel to minimize clicks.
+    *   **Global AI Console:** A terminal-style interface occupying **55%** of the screen, emphasizing the tool's AI-first nature.
+    *   **Real-time Search:** Implemented global filtering for Company and Location to speed up BDR workflow.
+*   **Tech Highlights:**
+    *   Used `Ant Design` for rapid, professional component scaffolding.
+    *   Implemented full CRUD (Create, Read, Update, Delete) connected to the JSON backend.
+
+### Phase 4: Agent Preparation (Ready for Live Coding)
+*   **Concept:** Designed the AI interaction as a "CLI / Terminal" stream, mimicking tools like Claude Code.
+*   **Status:** Backend `Agent` class skeleton is the final step to bridge the UI to the LLM.
 
 ## 📋 Task Breakdown & Status
 
 ### 1. Technology & Architecture ✅
 - [x] Finalize Tech Stack.
 - [x] Initialize Git Repository & Project Structure.
-- [x] Setup `.env` and `.gitignore` for security.
 
 ### 2. Data Preparation (Leads) ✅
 - [x] Define Schema with "BDR Utility" focus.
 - [x] Generate 10 real companies data (`leads.json`).
 
-### 3. Web App Design (Product Spec) 📝
-- **Core Philosophy:** "Container for Agents" - Simple CRM wrapper around AI capabilities.
-- **Pipeline Stages (Status):**
-    - `New`: Freshly added.
-    - `Qualified`: Passed AI/Manual check.
-    - `Disqualified`: Not a fit (e.g., pure SaaS).
-    - `Contacted`: Outreach initiated.
-    - `Negotiating`: Deep in sales cycle.
-- **UI Structure:**
-    1.  **Lead List (Main View):**
-        - Antd `Table`. Columns: Name, Industry, Country, Employees, **Status (Tag)**, Actions (Delete).
-        - **Global Controls:** "Refresh List", "Add Lead" (Modal).
-        - **Agent Placeholder (Layer 1):** A reserved **"AI Chat/Action Dialog"** space above or beside the table for global commands (e.g., "Find leads similar to Sezane").
-    2.  **Lead Detail (Drawer):**
-        - Opens on row click.
-        - **Read/Write:** All fields editable via inputs or "Edit Mode".
-        - **No "Per-Lead" AI Buttons:** Keep the drawer strictly for data viewing/editing to avoid clutter.
-- **CRUD Requirements:**
-    - [ ] List all leads.
-    - [ ] View single lead details.
-    - [ ] Create new lead (Modal).
-    - [ ] Update lead info (Drawer).
-    - [ ] Delete lead (Table Action).
+### 3. Web App Design & UI ✅
+- [x] **Layout:** Split View (Table + 35% Width Side Panel).
+- [x] **AI Console:** **55vh Height**, Light Theme, CLI-style raw text stream, Session Sidebar.
+- [x] **Search:** Real-time global inputs for Company/Location above the table.
+- [x] **Sorting/Filtering:** Industry sorter, Status/Employee dropdowns.
 
-### 4. Web App Implementation 🚧
-- [ ] **Backend:** Pydantic Models & API for GET/POST/PATCH/DELETE.
-- [ ] **Frontend:** Dashboard with `antd` Table & Drawer.
+### 4. Agentic Capabilities 🚧
+- [ ] **Backend Implementation:** Create `backend/app/agent.py` with `Agent` class, Pydantic models for structured output, and mock tool registry.
 
-### 5. Agentic Capabilities (Strategic Planning) 🚧
-- [x] **Brainstormed Use Cases.**
-- [ ] **Tooling Preparation:** Setup minimal `Agent` class in Python.
-
-## 📝 Notes
-- **Simplification:** Removed complex "Enriching" state and per-lead AI buttons. Focus on a clean, manual CRM first, with a single "Global AI Entry Point" reserved.
+## 📝 Presentation Key Points
+*   "I built a **Qualification Engine**, not just a database."
+*   "The UI is designed to be an **Agent Cockpit**, where the human oversees the AI's work (Human-in-the-loop)."
+*   "The architecture is simple (JSON) but scalable (Pydantic/FastAPI)."

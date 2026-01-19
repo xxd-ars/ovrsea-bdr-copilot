@@ -407,7 +407,7 @@ function App() {
             flexShrink: 0
           }}>
             <div style={{ padding: '12px 16px', borderBottom: '1px solid #eee', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <Text strong size="small" style={{ color: '#555' }}>SESSIONS</Text>
+              <Text strong style={{ color: '#555', fontSize: '12px' }}>SESSIONS</Text>
               <Button size="small" icon={<PlusOutlined />} onClick={() => message.info('New chat session started')}>New</Button>
             </div>
             <div style={{ flex: 1, overflowY: 'auto', padding: '8px' }}>
@@ -419,11 +419,11 @@ function App() {
                 marginBottom: 4,
                 border: '1px solid #91d5ff'
               }}>
-                <Text size="small" strong>Current Investigation</Text><br/>
+                <Text strong style={{ fontSize: '12px' }}>Current Investigation</Text><br/>
                 <Text type="secondary" style={{ fontSize: '10px' }}>Just now</Text>
               </div>
               <div style={{ padding: '8px 12px', borderRadius: 4, cursor: 'not-allowed', opacity: 0.6 }}>
-                <Text size="small">Previous Outreach</Text><br/>
+                <Text style={{ fontSize: '12px' }}>Previous Outreach</Text><br/>
                 <Text type="secondary" style={{ fontSize: '10px' }}>2 hours ago</Text>
               </div>
             </div>
