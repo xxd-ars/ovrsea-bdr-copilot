@@ -3,8 +3,17 @@ from fastapi.middleware.cors import CORSMiddleware
 from typing import List
 from app.models import Lead, LeadCreate, LeadUpdate, LeadStatus
 from app.db import load_leads, save_leads
+from app.agent_service import get_agent_instance
+from pydantic import BaseModel
 
 app = FastAPI(title="Ovrsea BDR Tool")
+
+# Global Agent Instance (Simple Memory persistence for demo)
+# In production, use Redis or a proper Session Manager
+agent_instance = get_agent_instance()
+
+class ChatRequest(BaseModel):
+    message: str
 
 # CORS
 app.add_middleware(
@@ -14,6 +23,26 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+@app.post("/api/agent/chat")
+def agent_chat(request: ChatRequest):
+    """
+    Endpoint for the Frontend AI Terminal.
+    Passes user message to the AgentRuntime and returns the final text.
+    """
+    try:
+        response_text = agent_instance.run(request.message)
+        return {"response": response_text}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/api/agent/reset")
+def reset_agent_memory():
+    """
+    Clears the agent's memory for a new session.
+    """
+    agent_instance.reset_memory()
+    return {"status": "memory_cleared"}
 
 @app.get("/leads", response_model=List[Lead])
 def get_leads():

@@ -9,52 +9,61 @@
 *   **Backend:** **Python + FastAPI** (API & Agent Logic).
 *   **Storage:** **JSON File (`leads.json`)** managed via **Pydantic**.
 *   **Frontend:** **React (Vite) + Ant Design** (Professional B2B UI).
-*   **Agent:** **OpenAI SDK** (Backbone prepared for live coding).
+*   **Agent:** **OpenAI SDK + Custom Tool Registry** (ReAct Engine).
 
 ## 🚀 Development Journey (Summary for Presentation)
 
 ### Phase 1: Architecture & Setup
-*   **Decision:** Chose **FastAPI + React** over Streamlit to demonstrate "Real-Life Impact" and engineering maturity while keeping it lightweight (no heavy DB).
+*   **Decision:** Chose **FastAPI + React** to simulate a real production environment.
 *   **Structure:** Clean separation of concerns (`backend/` vs `frontend/`).
-*   **Security:** Implemented `.env` for API keys and proper `.gitignore`.
+*   **Security:** Implemented `.env` for API keys and `.gitignore` for safety.
 
 ### Phase 2: Data Engineering (The "BDR" Context)
-*   **Strategy:** Created a dataset of **10 Real Companies** (e.g., Sézane, Devialet) with specific logistics characteristics (e.g., "Import from China", "Physical Goods" vs "SaaS").
-*   **Schema Design:** Added specific fields like `product_type` and `transport_modes` to enable future Agent reasoning (Shippability checks).
+*   **Strategy:** Created a dataset of **10 Real Companies** (e.g., Sézane, Devialet) with logistics-specific fields (`transport_modes`, `import_locations`) to test Agent reasoning.
 
 ### Phase 3: Web App Implementation (The "Productivity Hack")
 *   **UI/UX Design:** 
-    *   **Single-View Dashboard:** Combined List View + Detail Panel to minimize clicks.
-    *   **Global AI Console:** A terminal-style interface occupying **55%** of the screen, emphasizing the tool's AI-first nature.
-    *   **Real-time Search:** Implemented global filtering for Company and Location to speed up BDR workflow.
+    *   **Single-View Dashboard:** List View + 35% Detail Panel + **55% AI Terminal**.
+    *   **Real-time Search:** Global filtering for instant data access.
 *   **Tech Highlights:**
-    *   Used `Ant Design` for rapid, professional component scaffolding.
-    *   Implemented full CRUD (Create, Read, Update, Delete) connected to the JSON backend.
+    *   Full CRUD connected to JSON backend.
+    *   Real-time UI updates when Agent modifies data.
 
-### Phase 4: Agent Preparation (Ready for Live Coding)
-*   **Concept:** Designed the AI interaction as a "CLI / Terminal" stream, mimicking tools like Claude Code.
-*   **Status:** Backend `Agent` class skeleton is the final step to bridge the UI to the LLM.
+### Phase 4: Agentic Capabilities (The "Brain") ✅
+We built a robust **Agent Runtime** from scratch, designed to ace the interview's "speed & utility" requirements.
+
+*   **Architecture (Core vs Service):**
+    *   `agent_core.py`: A reusable **ReAct Engine** that handles the LLM loop, tool execution, and memory management.
+    *   `agent_service.py`: The **Business Logic** layer where we inject OVRSEA-specific prompts and register BDR tools.
+*   **Key Features Implemented:**
+    1.  **Tool Registry**: A decorator-based system (`@registry.register`) to turn any Python function into an LLM-ready tool instantly.
+    2.  **Mock Tools**: Pre-built `web_search_mock`, `update_lead_status`, `get_database_summary` to demonstrate capability without external dependencies.
+    3.  **Context Management**: Full conversation history support with a **"New Session"** reset feature (backend memory + frontend UI sync).
+    4.  **OpenRouter Support**: Configured to work seamlessly with `openai/gpt-4o-mini` and custom base URLs.
 
 ## 📋 Task Breakdown & Status
 
 ### 1. Technology & Architecture ✅
 - [x] Finalize Tech Stack.
-- [x] Initialize Git Repository & Project Structure.
+- [x] Initialize Git Repository.
 
 ### 2. Data Preparation (Leads) ✅
 - [x] Define Schema with "BDR Utility" focus.
-- [x] Generate 10 real companies data (`leads.json`).
+- [x] Generate 10 real companies data.
 
 ### 3. Web App Design & UI ✅
-- [x] **Layout:** Split View (Table + 35% Width Side Panel).
-- [x] **AI Console:** **55vh Height**, Light Theme, CLI-style raw text stream, Session Sidebar.
-- [x] **Search:** Real-time global inputs for Company/Location above the table.
-- [x] **Sorting/Filtering:** Industry sorter, Status/Employee dropdowns.
+- [x] **Layout:** Split View (Table + Detail Panel).
+- [x] **AI Console:** **55vh Height**, CLI-style stream, Session Sidebar.
+- [x] **Interactive:** Real-time search, sorting, filtering.
 
-### 4. Agentic Capabilities 🚧
-- [ ] **Backend Implementation:** Create `backend/app/agent.py` with `Agent` class, Pydantic models for structured output, and mock tool registry.
+### 4. Agentic Capabilities ✅
+- [x] **Core Engine:** Implemented `AgentRuntime` with ReAct loop.
+- [x] **Tool System:** Created `ToolRegistry` for easy tool addition.
+- [x] **BDR Tools:** Implemented `update_status`, `search` (mock), `get_details`.
+- [x] **API Integration:** Connected Frontend Terminal to Backend Agent.
+- [x] **Session Management:** Implemented "Reset Memory" functionality.
 
 ## 📝 Presentation Key Points
-*   "I built a **Qualification Engine**, not just a database."
-*   "The UI is designed to be an **Agent Cockpit**, where the human oversees the AI's work (Human-in-the-loop)."
-*   "The architecture is simple (JSON) but scalable (Pydantic/FastAPI)."
+*   **"I built an Agent Runtime, not just a Chatbot."** (Mention the ReAct loop and Tool Registry).
+*   **"Designed for Live Coding."** (Show how easily you can add a new tool in `agent_service.py`).
+*   **"Human-in-the-loop."** (The UI allows the BDR to verify the Agent's work immediately).

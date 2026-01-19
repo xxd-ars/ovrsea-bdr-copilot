@@ -1,10 +1,9 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { Layout, Table, Button, Tag, Descriptions, Space, Typography, Modal, Form, Input, Select, message, Card, Popconfirm, Divider } from 'antd';
+import { Layout, Table, Button, Tag, Descriptions, Space, Typography, Modal, Form, Input, Select, message, Popconfirm, Divider } from 'antd';
 import { PlusOutlined, ReloadOutlined, RobotOutlined, DeleteOutlined, EditOutlined, CloseOutlined, SendOutlined, SearchOutlined } from '@ant-design/icons';
-import type { ColumnsType, ColumnType } from 'antd/es/table';
-import type { FilterDropdownProps } from 'antd/es/table/interface';
+import type { ColumnsType } from 'antd/es/table';
 import { Lead, LeadCreate, LeadUpdate } from './types';
-import { getLeads, createLead, updateLead, deleteLead } from './api/client';
+import { getLeads, createLead, updateLead, deleteLead, chatAgent, resetAgent } from './api/client';
 
 const { Header, Content } = Layout;
 const { Title, Text } = Typography;
@@ -25,17 +24,23 @@ function App() {
     const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [form] = Form.useForm();
-  
-    // Search States (Global Filtering)
-    const [companySearch, setCompanySearch] = useState('');
-    const [locationSearch, setLocationSearch] = useState('');
-    
+
     // For Detail Panel Editing
     const [isEditing, setIsEditing] = useState(false);
     const [editForm] = Form.useForm();
+
+    // For real-time column search
+    const [companySearch, setCompanySearch] = useState('');
+    const [locationSearch, setLocationSearch] = useState('');
   
     // For AI Assistant
     const [aiInput, setAiInput] = useState('');
+    const [chatHistory, setChatHistory] = useState<{role: 'user' | 'agent', content: string}[]>([
+      { role: 'agent', content: '[SYSTEM] Initialized OVRSEA BDR Agent v1.0.0' },
+      { role: 'agent', content: '[SYSTEM] Context loaded. Ready for instructions.' }
+    ]);
+    const [isAgentProcessing, setIsAgentProcessing] = useState(false);
+    const chatEndRef = useRef<HTMLDivElement>(null);
   
     const fetchLeads = async () => {
       setLoading(true);
@@ -52,15 +57,49 @@ function App() {
     useEffect(() => {
       fetchLeads();
     }, []);
-  
-    // Filtered Logic (Real-time)
+
+    useEffect(() => {
+      chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }, [chatHistory]);
+
+    // --- Real-time filtered data ---
     const filteredLeads = leads.filter(lead => {
       const matchCompany = lead.company_name.toLowerCase().includes(companySearch.toLowerCase());
       const matchLocation = lead.location.toLowerCase().includes(locationSearch.toLowerCase());
       return matchCompany && matchLocation;
     });
-  
+
     // --- Actions ---
+
+    const handleNewSession = async () => {
+      try {
+        await resetAgent();
+        setChatHistory([{ role: 'agent', content: '[SYSTEM] Session reset. Context cleared.' }]);
+        message.success('New chat session started');
+      } catch (error) {
+        message.error('Failed to reset session');
+      }
+    };
+
+    const handleAgentSubmit = async () => {
+      if (!aiInput.trim()) return;
+      
+      const userMsg = aiInput;
+      setAiInput('');
+      setChatHistory(prev => [...prev, { role: 'user', content: userMsg }]);
+      setIsAgentProcessing(true);
+
+      try {
+        const res = await chatAgent(userMsg);
+        setChatHistory(prev => [...prev, { role: 'agent', content: res.response }]);
+        // Refresh leads in case agent modified something
+        fetchLeads();
+      } catch (error) {
+        setChatHistory(prev => [...prev, { role: 'agent', content: `[ERROR] Failed to communicate with agent: ${error}` }]);
+      } finally {
+        setIsAgentProcessing(false);
+      }
+    };
   
     const handleAddLead = async (values: LeadCreate) => {
       try {
@@ -149,13 +188,27 @@ function App() {
         title: 'Status',
         dataIndex: 'status',
         key: 'status',
-        width: 120,
+        width: 130,
         render: (status) => <Tag color={getStatusColor(status)}>{status}</Tag>,
         filters: STATUS_OPTIONS.map(opt => ({ text: opt.label, value: opt.value })),
         onFilter: (value, record) => record.status === value,
       },
       {
-        title: 'Company',
+        title: (
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <span>Company</span>
+            <Input
+              placeholder="Search..."
+              size="small"
+              value={companySearch}
+              onChange={(e) => setCompanySearch(e.target.value)}
+              prefix={<SearchOutlined style={{ color: '#bfbfbf' }} />}
+              allowClear
+              onClick={(e) => e.stopPropagation()}
+              style={{ width: 120 }}
+            />
+          </div>
+        ),
         dataIndex: 'company_name',
         key: 'company_name',
         render: (text) => <Text strong>{text}</Text>,
@@ -168,7 +221,21 @@ function App() {
         sorter: (a, b) => a.industry.localeCompare(b.industry),
       },
       {
-        title: 'Location',
+        title: (
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <span>Location</span>
+            <Input
+              placeholder="Search..."
+              size="small"
+              value={locationSearch}
+              onChange={(e) => setLocationSearch(e.target.value)}
+              prefix={<SearchOutlined style={{ color: '#bfbfbf' }} />}
+              allowClear
+              onClick={(e) => e.stopPropagation()}
+              style={{ width: 120 }}
+            />
+          </div>
+        ),
         dataIndex: 'location',
         key: 'location',
       },
@@ -190,7 +257,7 @@ function App() {
       {
         title: 'Action',
         key: 'action',
-        width: 140,
+        width: 120,
         render: (_, record) => (
           <Space size="small">
             <Button type="primary" size="small" onClick={() => openDetailPanel(record)}>View</Button>
@@ -222,24 +289,6 @@ function App() {
         }}>
           <Title level={3} style={{ margin: 0, flex: 1 }}>🚀 Ovrsea BDR Tool</Title>
           <Space>
-             {/* Global Search Inputs */}
-             <Input 
-               placeholder="Search Company..." 
-               prefix={<SearchOutlined style={{ color: '#bfbfbf' }} />} 
-               value={companySearch}
-               onChange={e => setCompanySearch(e.target.value)}
-               style={{ width: 220 }}
-               allowClear
-             />
-             <Input 
-               placeholder="Search Location..." 
-               prefix={<SearchOutlined style={{ color: '#bfbfbf' }} />} 
-               value={locationSearch}
-               onChange={e => setLocationSearch(e.target.value)}
-               style={{ width: 220 }}
-               allowClear
-             />
-             <Divider type="vertical" />
             <Button icon={<ReloadOutlined />} onClick={fetchLeads}>Refresh</Button>
             <Button type="primary" icon={<PlusOutlined />} onClick={() => setIsModalOpen(true)}>Add Lead</Button>
           </Space>
@@ -269,7 +318,7 @@ function App() {
                 loading={loading}
                 size="middle"
                 pagination={{ pageSize: 10, showSizeChanger: false }}
-                scroll={{ y: 'calc(100vh - 380px)' }}
+                scroll={{ y: 'calc(100vh - 400px)' }}
               />
             </div>
           {/* Right: Detail Panel (visible when lead selected) */}
@@ -407,8 +456,8 @@ function App() {
             flexShrink: 0
           }}>
             <div style={{ padding: '12px 16px', borderBottom: '1px solid #eee', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <Text strong style={{ color: '#555', fontSize: '12px' }}>SESSIONS</Text>
-              <Button size="small" icon={<PlusOutlined />} onClick={() => message.info('New chat session started')}>New</Button>
+              <Text strong size="small" style={{ color: '#555' }}>SESSIONS</Text>
+              <Button size="small" icon={<PlusOutlined />} onClick={handleNewSession}>New</Button>
             </div>
             <div style={{ flex: 1, overflowY: 'auto', padding: '8px' }}>
               <div style={{ 
@@ -456,23 +505,28 @@ function App() {
               lineHeight: 1.6,
               color: '#333'
             }}>
-              <div style={{ marginBottom: 4 }}>
-                <span style={{ color: '#1890ff', marginRight: 8 }}>[SYSTEM]</span> 
-                Initialized OVRSEA BDR Agent v1.0.0
-              </div>
-              <div style={{ marginBottom: 4 }}>
-                <span style={{ color: '#1890ff', marginRight: 8 }}>[SYSTEM]</span> 
-                Context loaded: 10 leads, 5 characteristics defined.
-              </div>
-              <div style={{ marginBottom: 20 }}>
-                <span style={{ color: '#1890ff', marginRight: 8 }}>[SYSTEM]</span> 
-                Ready for instructions.
-              </div>
-              
-              {/* This is where future stream content will appear */}
-              <div style={{ color: '#888', fontStyle: 'italic' }}>
-                // Awaiting command...
-              </div>
+              {chatHistory.map((msg, idx) => (
+                <div key={idx} style={{ marginBottom: 12 }}>
+                  {msg.role === 'agent' ? (
+                    <div style={{ whiteSpace: 'pre-wrap' }}>
+                      <span style={{ color: '#1890ff', marginRight: 8 }}>[AGENT]</span> 
+                      {msg.content}
+                    </div>
+                  ) : (
+                    <div>
+                      <span style={{ color: '#52c41a', marginRight: 8, fontWeight: 'bold' }}>❯</span> 
+                      <span style={{ fontWeight: 600 }}>{msg.content}</span>
+                    </div>
+                  )}
+                </div>
+              ))}
+              {isAgentProcessing && (
+                <div style={{ color: '#888', fontStyle: 'italic' }}>
+                  <span style={{ color: '#1890ff', marginRight: 8 }}>[AGENT]</span> 
+                  Thinking...
+                </div>
+              )}
+              <div ref={chatEndRef} />
             </div>
 
             {/* Input Area: Ergonomic & Clean */}
@@ -500,14 +554,18 @@ function App() {
                   onPressEnter={(e) => {
                     if (!e.shiftKey) {
                       e.preventDefault();
+                      handleAgentSubmit();
                     }
                   }}
+                  disabled={isAgentProcessing}
                 />
                 <Button
                   type="primary"
                   icon={<SendOutlined />}
                   style={{ height: 40, padding: '0 24px', borderRadius: 6 }}
-                  disabled={!aiInput.trim()}
+                  disabled={!aiInput.trim() || isAgentProcessing}
+                  onClick={handleAgentSubmit}
+                  loading={isAgentProcessing}
                 >
                   Run
                 </Button>
