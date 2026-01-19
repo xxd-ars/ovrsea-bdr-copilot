@@ -1,16 +1,29 @@
 [
   {
     "id": 1,
-    "company_name": "Sézane",
+    "company_name": "S\u00e9zane",
     "website_url": "https://www.sezane.com",
     "location": "Paris, France",
     "industry": "Fashion & Apparel",
     "employee_count": "200-500",
     "product": "Women's clothing and accessories",
     "product_type": "Physical Goods",
-    "transport_modes": ["Sea", "Air", "Road"],
-    "import_locations": ["China", "Portugal", "Italy", "India"],
-    "export_locations": ["USA", "UK", "European Union"],
+    "transport_modes": [
+      "Sea",
+      "Air",
+      "Road"
+    ],
+    "import_locations": [
+      "China",
+      "Portugal",
+      "Italy",
+      "India"
+    ],
+    "export_locations": [
+      "USA",
+      "UK",
+      "European Union"
+    ],
     "status": "Qualified"
   },
   {
@@ -22,9 +35,21 @@
     "employee_count": "200-500",
     "product": "High-end speakers and amplifiers",
     "product_type": "Physical Goods",
-    "transport_modes": ["Air", "Road"],
-    "import_locations": ["China", "Taiwan", "France"],
-    "export_locations": ["Global", "USA", "Asia", "Middle East"],
+    "transport_modes": [
+      "Air",
+      "Road"
+    ],
+    "import_locations": [
+      "China",
+      "Taiwan",
+      "France"
+    ],
+    "export_locations": [
+      "Global",
+      "USA",
+      "Asia",
+      "Middle East"
+    ],
     "status": "Qualified"
   },
   {
@@ -36,9 +61,19 @@
     "employee_count": "500-1000",
     "product": "Refurbished electronics",
     "product_type": "Physical Goods",
-    "transport_modes": ["Road", "Air"],
-    "import_locations": ["European Union", "USA"],
-    "export_locations": ["European Union", "USA", "Japan"],
+    "transport_modes": [
+      "Road",
+      "Air"
+    ],
+    "import_locations": [
+      "European Union",
+      "USA"
+    ],
+    "export_locations": [
+      "European Union",
+      "USA",
+      "Japan"
+    ],
     "status": "Qualified"
   },
   {
@@ -52,8 +87,13 @@
     "product_type": "Software / Service",
     "transport_modes": [],
     "import_locations": [],
-    "export_locations": ["France", "Belgium", "Spain", "Canada"],
-    "status": "Not Qualified"
+    "export_locations": [
+      "France",
+      "Belgium",
+      "Spain",
+      "Canada"
+    ],
+    "status": "Disqualified"
   },
   {
     "id": 5,
@@ -64,9 +104,20 @@
     "employee_count": "200-500",
     "product": "Sustainable sneakers",
     "product_type": "Physical Goods",
-    "transport_modes": ["Sea", "Road"],
-    "import_locations": ["Brazil", "Portugal"],
-    "export_locations": ["Global", "USA", "Europe", "Asia"],
+    "transport_modes": [
+      "Sea",
+      "Road"
+    ],
+    "import_locations": [
+      "Brazil",
+      "Portugal"
+    ],
+    "export_locations": [
+      "Global",
+      "USA",
+      "Europe",
+      "Asia"
+    ],
     "status": "Qualified"
   },
   {
@@ -78,9 +129,19 @@
     "employee_count": "500-1000",
     "product": "Crypto hardware wallets",
     "product_type": "Physical Goods",
-    "transport_modes": ["Air", "Road"],
-    "import_locations": ["China", "France"],
-    "export_locations": ["Global", "USA", "Asia"],
+    "transport_modes": [
+      "Air",
+      "Road"
+    ],
+    "import_locations": [
+      "China",
+      "France"
+    ],
+    "export_locations": [
+      "Global",
+      "USA",
+      "Asia"
+    ],
     "status": "Qualified"
   },
   {
@@ -94,21 +155,35 @@
     "product_type": "Software / Service",
     "transport_modes": [],
     "import_locations": [],
-    "export_locations": ["France", "Germany", "Italy", "Netherlands"],
-    "status": "Not Qualified"
+    "export_locations": [
+      "France",
+      "Germany",
+      "Italy",
+      "Netherlands"
+    ],
+    "status": "Disqualified"
   },
   {
     "id": 8,
-    "company_name": "Le Slip Français",
+    "company_name": "Le Slip Fran\u00e7ais",
     "website_url": "https://www.leslipfrancais.fr",
     "location": "Paris, France",
     "industry": "Apparel",
     "employee_count": "50-100",
     "product": "Underwear and clothing",
     "product_type": "Physical Goods",
-    "transport_modes": ["Road", "Air"],
-    "import_locations": ["France"],
-    "export_locations": ["Europe", "USA", "Japan"],
+    "transport_modes": [
+      "Road",
+      "Air"
+    ],
+    "import_locations": [
+      "France"
+    ],
+    "export_locations": [
+      "Europe",
+      "USA",
+      "Japan"
+    ],
     "status": "Qualified"
   },
   {
@@ -120,9 +195,22 @@
     "employee_count": "500-1000",
     "product": "Tools, furniture, DIY equipment",
     "product_type": "Physical Goods",
-    "transport_modes": ["Sea", "Road", "Air"],
-    "import_locations": ["China", "Europe", "Vietnam"],
-    "export_locations": ["Spain", "Italy", "Germany", "UK"],
+    "transport_modes": [
+      "Sea",
+      "Road",
+      "Air"
+    ],
+    "import_locations": [
+      "China",
+      "Europe",
+      "Vietnam"
+    ],
+    "export_locations": [
+      "Spain",
+      "Italy",
+      "Germany",
+      "UK"
+    ],
     "status": "Qualified"
   },
   {
@@ -134,9 +222,32 @@
     "employee_count": "50-100",
     "product": "Design furniture and table legs",
     "product_type": "Physical Goods",
-    "transport_modes": ["Road", "Sea"],
-    "import_locations": ["Europe"],
-    "export_locations": ["Global", "USA", "Europe"],
+    "transport_modes": [
+      "Road",
+      "Sea"
+    ],
+    "import_locations": [
+      "Europe"
+    ],
+    "export_locations": [
+      "Global",
+      "USA",
+      "Europe"
+    ],
     "status": "Qualified"
+  },
+  {
+    "id": 11,
+    "company_name": "test",
+    "website_url": "test",
+    "location": "test",
+    "industry": "test",
+    "employee_count": "200-500",
+    "product": null,
+    "product_type": null,
+    "transport_modes": [],
+    "import_locations": [],
+    "export_locations": [],
+    "status": "New"
   }
 ]
