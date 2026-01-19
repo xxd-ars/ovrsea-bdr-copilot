@@ -8,17 +8,8 @@
 
 ## 🛠️ Technical Stack (Finalized)
 *   **Backend:** **Python + FastAPI**.
-    *   *Role:* API & Agent Logic.
 *   **Storage:** **JSON File (`leads.json`) + Pydantic**.
-    *   *Why:* Maximum portability & speed. Easy to edit manually.
-    *   *Scalability Answer:* "For production (1M+ rows), I'd switch to PostgreSQL (Relational for ID/Name + JSONB for AI insights)."
-*   **Frontend:** **TypeScript + React (Vite)**.
-    *   *Role:* Client-side logic.
-*   **UI Framework:** **Ant Design (antd)**.
-    *   *Why:*
-        *   **Table:** Best-in-class for listing data (Task 2).
-        *   **Drawer:** Perfect for "Quick View" / Agent Interaction without page jumps.
-        *   **Aesthetic:** Fits the "Professional B2B SaaS" look (Ovrsea style).
+*   **Frontend:** **TypeScript + React (Vite) + Ant Design**.
 *   **Agent/LLM:** **OpenAI SDK** + **Pydantic** (Structured Outputs).
 
 ## 📋 Task Breakdown & Status
@@ -29,34 +20,40 @@
 - [x] Setup `.env` and `.gitignore` for security.
 
 ### 2. Data Preparation (Leads) ✅
-- [x] Define Schema with "BDR Utility" focus (Shippability, Markets, Product Type).
-- [x] Generate 10 real companies data (`leads.json`) with specialized fields.
+- [x] Define Schema with "BDR Utility" focus.
+- [x] Generate 10 real companies data (`leads.json`).
 
-### 3. Web App Implementation 🚧 (In Progress)
-- [ ] **Backend:** Pydantic Models & API for GET/POST leads.
-- [ ] **Frontend:** Dashboard with `antd` Table & Drawer for details.
+### 3. Web App Design (Product Spec) 📝
+- **Core Philosophy:** "Container for Agents" - Simple CRM wrapper around AI capabilities.
+- **Pipeline Stages (Status):**
+    - `New`: Freshly added.
+    - `Qualified`: Passed AI/Manual check.
+    - `Disqualified`: Not a fit (e.g., pure SaaS).
+    - `Contacted`: Outreach initiated.
+    - `Negotiating`: Deep in sales cycle.
+- **UI Structure:**
+    1.  **Lead List (Main View):**
+        - Antd `Table`. Columns: Name, Industry, Country, Employees, **Status (Tag)**, Actions (Delete).
+        - **Global Controls:** "Refresh List", "Add Lead" (Modal).
+        - **Agent Placeholder (Layer 1):** A reserved **"AI Chat/Action Dialog"** space above or beside the table for global commands (e.g., "Find leads similar to Sezane").
+    2.  **Lead Detail (Drawer):**
+        - Opens on row click.
+        - **Read/Write:** All fields editable via inputs or "Edit Mode".
+        - **No "Per-Lead" AI Buttons:** Keep the drawer strictly for data viewing/editing to avoid clutter.
+- **CRUD Requirements:**
+    - [ ] List all leads.
+    - [ ] View single lead details.
+    - [ ] Create new lead (Modal).
+    - [ ] Update lead info (Drawer).
+    - [ ] Delete lead (Table Action).
 
-### 4. Agentic Capabilities (Strategic Planning) 🚧
-- [x] **Brainstormed Use Cases:**
-    - **Qualifier Agent:** Analyze website/product to determine if the lead needs logistics (Physical goods vs. Software).
-    - **Researcher Agent:** Find latest news on supply chain expansions or funding.
-    - **Personalized Outreach:** Draft cold emails based on specific import/export routes.
+### 4. Web App Implementation 🚧
+- [ ] **Backend:** Pydantic Models & API for GET/POST/PATCH/DELETE.
+- [ ] **Frontend:** Dashboard with `antd` Table & Drawer.
 
-### 5. Lead Data Verification (Web Research) ⏳
-- [ ] **Verify each company field** in `backend/data/leads.json` against credible sources (official site, press kit, reputable directories).
-- [ ] **Document corrections** (employee ranges, locations, product focus, markets, shipping relevance).
-- [ ] **Flag uncertain fields** for manual confirmation.
-
-## 🗂️ Lead Schema (Design Decision)
-To maximize Agent effectiveness, each lead includes:
-- `id`, `company_name`, `website_url`, `location`, `industry`.
-- `employee_count`: Qualification criteria.
-- `product` & `product_type`: Critical for "Shippability" logic.
-- `transport_modes`: Sea, Air, Road, etc.
-- `import_locations` & `export_locations`: Key for route-based personalization.
+### 5. Agentic Capabilities (Strategic Planning) 🚧
+- [x] **Brainstormed Use Cases.**
+- [ ] **Tooling Preparation:** Setup minimal `Agent` class in Python.
 
 ## 📝 Notes
-- **Key Strategy:** The app isn't just a table; it's a "Qualification Engine".
-- **Interview Hook:** Show how an Agent can filter out "Alan" (SaaS) and prioritize "Devialet" (High-value electronics).
-- **Agent Integration:** Ensure the Backend can easily "inject" AI-generated fields into the JSON store.
-- **Current Focus:** Deep-verify lead data accuracy; requires web research before finalizing fields.
+- **Simplification:** Removed complex "Enriching" state and per-lead AI buttons. Focus on a clean, manual CRM first, with a single "Global AI Entry Point" reserved.

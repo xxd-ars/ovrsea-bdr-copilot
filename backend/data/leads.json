@@ -52,7 +52,7 @@
     "product_type": "Software / Service",
     "transport_modes": [],
     "import_locations": [],
-    "export_locations": ["Belgium", "Spain"],
+    "export_locations": ["France", "Belgium", "Spain", "Canada"],
     "status": "Not Qualified"
   },
   {
@@ -61,11 +61,11 @@
     "website_url": "https://www.veja-store.com",
     "location": "Paris, France",
     "industry": "Footwear",
-    "employee_count": "100-200",
+    "employee_count": "200-500",
     "product": "Sustainable sneakers",
     "product_type": "Physical Goods",
     "transport_modes": ["Sea", "Road"],
-    "import_locations": ["Brazil"],
+    "import_locations": ["Brazil", "Portugal"],
     "export_locations": ["Global", "USA", "Europe", "Asia"],
     "status": "Qualified"
   },
@@ -73,7 +73,7 @@
     "id": 6,
     "company_name": "Ledger",
     "website_url": "https://www.ledger.com",
-    "location": "Vierzon, France",
+    "location": "Paris, France",
     "industry": "Hardware Security",
     "employee_count": "500-1000",
     "product": "Crypto hardware wallets",
@@ -94,7 +94,7 @@
     "product_type": "Software / Service",
     "transport_modes": [],
     "import_locations": [],
-    "export_locations": ["Germany", "Italy"],
+    "export_locations": ["France", "Germany", "Italy", "Netherlands"],
     "status": "Not Qualified"
   },
   {
@@ -131,7 +131,7 @@
     "website_url": "https://www.tiptoe.fr",
     "location": "Paris, France",
     "industry": "Furniture",
-    "employee_count": "10-50",
+    "employee_count": "50-100",
     "product": "Design furniture and table legs",
     "product_type": "Physical Goods",
     "transport_modes": ["Road", "Sea"],
