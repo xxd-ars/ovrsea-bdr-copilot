@@ -23,27 +23,40 @@
 
 ## 📋 Task Breakdown & Status
 
-### 1. Technology & Architecture 🚧 (In Progress)
+### 1. Technology & Architecture ✅
 - [x] Finalize Tech Stack.
-- [ ] Initialize Git Repository.
-- [ ] **Backend Setup:** FastAPI + Pydantic Models + JSON Manager.
-- [ ] **Frontend Setup:** Vite + React + Ant Design.
+- [x] Initialize Git Repository & Project Structure.
+- [x] Setup `.env` and `.gitignore` for security.
 
-### 2. Data Preparation (Leads) ⏳
-- [ ] Define the 5 characteristics (Schema).
-- [ ] Generate 10 real companies data (`leads.json`).
+### 2. Data Preparation (Leads) ✅
+- [x] Define Schema with "BDR Utility" focus (Shippability, Markets, Product Type).
+- [x] Generate 10 real companies data (`leads.json`) with specialized fields.
 
-### 3. Web App Implementation ⏳
-- [ ] **Backend:** API for GET/POST leads (Reading/Writing `leads.json`).
-- [ ] **Frontend:** Dashboard with `antd` Table.
-- [ ] **Frontend:** Lead Detail view (Drawer/Sidepanel).
+### 3. Web App Implementation 🚧 (In Progress)
+- [ ] **Backend:** Pydantic Models & API for GET/POST leads.
+- [ ] **Frontend:** Dashboard with `antd` Table & Drawer for details.
 
-### 4. Agentic Capabilities (Preparation for Live Coding) ⏳
-- [ ] Setup LLM Client (Env variables management).
-- [ ] Create `Agent` class/helper.
-- [ ] **Tooling:** Prepare `Tool` decorators/structure for live coding.
+### 4. Agentic Capabilities (Strategic Planning) 🚧
+- [x] **Brainstormed Use Cases:**
+    - **Qualifier Agent:** Analyze website/product to determine if the lead needs logistics (Physical goods vs. Software).
+    - **Researcher Agent:** Find latest news on supply chain expansions or funding.
+    - **Personalized Outreach:** Draft cold emails based on specific import/export routes.
+
+### 5. Lead Data Verification (Web Research) ⏳
+- [ ] **Verify each company field** in `backend/data/leads.json` against credible sources (official site, press kit, reputable directories).
+- [ ] **Document corrections** (employee ranges, locations, product focus, markets, shipping relevance).
+- [ ] **Flag uncertain fields** for manual confirmation.
+
+## 🗂️ Lead Schema (Design Decision)
+To maximize Agent effectiveness, each lead includes:
+- `id`, `company_name`, `website_url`, `location`, `industry`.
+- `employee_count`: Qualification criteria.
+- `product` & `product_type`: Critical for "Shippability" logic.
+- `transport_modes`: Sea, Air, Road, etc.
+- `import_locations` & `export_locations`: Key for route-based personalization.
 
 ## 📝 Notes
-- **Focus:** Utility and Speed.
-- **Key Strategy:** Use `antd` components to avoid writing CSS.
+- **Key Strategy:** The app isn't just a table; it's a "Qualification Engine".
+- **Interview Hook:** Show how an Agent can filter out "Alan" (SaaS) and prioritize "Devialet" (High-value electronics).
 - **Agent Integration:** Ensure the Backend can easily "inject" AI-generated fields into the JSON store.
+- **Current Focus:** Deep-verify lead data accuracy; requires web research before finalizing fields.
